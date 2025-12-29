@@ -44,7 +44,6 @@ function Board({ xIsNext, squares, onPlay }) {
 
 export default function Game() {
 
-  //const [xIsNext, setXIsNext] = useState(true);
   const [history, setHistory] = useState([Array(9).fill(null)]);
   const [currentMove, setCurrentMove] = useState(0);
 
@@ -62,14 +61,16 @@ export default function Game() {
   }
 
   const moves = history.map((squares, move) => {
-    let description = move > 0 
-      ? 'Go to move #' + move
-      : 'Go to game start';
-    return (
-      <li key={ move }>
-        <button onClick={() => jumpTo(move)}>{ description }</button>
-      </li>
-    )
+
+    switch (move) {
+      case 0: 
+        return (<li key={ move }><button onClick={() => jumpTo(move)}>Go to game start</button></li>);
+      case currentMove: 
+        return (<li key={ move }>You are at move #{ move }</li>);
+      default:
+        return (<li key={ move }><button onClick={() => jumpTo(move)}>Go to move #{ move }</button></li>);
+    }
+
   });
 
   return (
